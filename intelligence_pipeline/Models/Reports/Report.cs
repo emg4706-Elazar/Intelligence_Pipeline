@@ -1,20 +1,10 @@
 using IntelligencePipeline.Models.Enums;
+using System.Data;
 
 namespace IntelligencePipeline.Models.Reports
 {
     abstract class Report
     {
-        private int _reportId;
-        private DateTime _timestamp;
-        private double _latitude;
-        private double _longitude;
-        private string _description;
-        private ReportStatus _status;
-        private Priority _priority;
-        private Classification _classification;
-        private int _reliabilityScore;
-        private string _rejectionReason;
-
         public int ReportId { get; }
         public DateTime Timestamp { get; set; }
         public double Latitude { get; set; }
@@ -23,6 +13,22 @@ namespace IntelligencePipeline.Models.Reports
         public ReportStatus Status { get; set; }
         public Priority Priority { get; set; }
         public Classification Classification { get; set; }
+        public int ReliabilityScore { get; set; }
+        public string RejectionReason { get; set; }
 
+        protected Report(int reportId, DataTime timestamp, double latitude, double longitude, string description)
+        {
+
+        }
+        public abstract string GetSourceType();
+        public abstract int CalculateReliabilityScore();
+        public virtual string GetSummary()
+        {
+
+        }
+        public override string ToString()
+        {
+
+        }
     }
 }
