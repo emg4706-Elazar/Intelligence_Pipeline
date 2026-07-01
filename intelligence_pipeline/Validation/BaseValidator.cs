@@ -12,9 +12,6 @@ namespace IntelligencePipeline.Validation
         {
 
         }
-        protected abstract ValidationResult ValidateSpecificFields(Report report)
-        {
-
-        }
+        protected abstract ValidationResult ValidateSpecificFields(Report report);
     }
 }
