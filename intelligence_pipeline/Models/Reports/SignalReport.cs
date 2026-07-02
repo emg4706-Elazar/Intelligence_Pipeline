@@ -26,7 +26,7 @@ namespace IntelligencePipeline.Models.Reports
 
         public override int CalculateReliabilityScore()
         {
-            int BASESCORE = 5;
+            const int BASESCORE = 5;
             int score = BASESCORE;
             string[] KEYWORDS = {"attack" , "target", "border", "vehicle"};
             if (SignalStrength >= -40) { score += 3; }
