@@ -41,7 +41,7 @@ namespace IntelligencePipeline.Models.Reports
         }
         public override string ToString()
         {
-            return $"ID: #{ReportId} | Status: {Status} | Timestamp: {Timestamp} | Description{Description}";
+            return $"ID: #{ReportId} | Status: {Status} | Timestamp: {Timestamp} | Description: {Description}";
         }
     }
 }
