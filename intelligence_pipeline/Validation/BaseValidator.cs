@@ -7,8 +7,18 @@ namespace IntelligencePipeline.Validation
     {
         public ValidationResult Validate(Report report)
         {
-            
+            ValidationResult res;
+
+            res = ValidateCommonFields(report);
+            if (! res.IsValid)
+            {
+                return res;
+            }
+
+            res = ValidateSpecificFields(report);
+            return res;
         }
+
         protected ValidationResult ValidateCommonFields(Report report)
         {
             if (report.Timestamp.Year < 2020 || report.Timestamp > DateTime.Now)

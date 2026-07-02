@@ -36,8 +36,8 @@ namespace IntelligencePipeline.Models.Reports
         public abstract int CalculateReliabilityScore();
         public virtual string GetSummary()
         {
-            return $"ID: #{ReportId} | Status: {Status} | Latitude: {Latitude} | Longitude: {Longitude}" +
-                $"Timestamp: {Timestamp} | Description{Description}";
+            return $"ID: #{ReportId} | Status: {Status} | Latitude: {Latitude} | Longitude: {Longitude} | " +
+                $"Timestamp: {Timestamp} | Description: {Description}";
         }
         public override string ToString()
         {
