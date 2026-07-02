@@ -20,7 +20,10 @@ namespace IntelligencePipeline.Models.Reports
             Language = language;
             SignalStrength = signalStrength;
         }
+
+
         public override string GetSourceType() => "Signal";
+
         public override int CalculateReliabilityScore()
         {
 

@@ -14,10 +14,19 @@ namespace IntelligencePipeline.Models.Reports
             Altitude = altitude;
             ImageQuality = imageQuality;
         }
+
+
         public override string GetSourceType() => "Drone";
         public override int CalculateReliabilityScore()
         {
+            const int BASESCORE = 5;
+            int score = BASESCORE;
+            if (ImageQuality >= 80) { score += 3; }
+            if (ImageQuality >= 50) { score += 2; }
+            if (Altitude >= 500 && Altitude <= 3000) { score += 2; }
+            if (Altitude > 7000) { score -= 2; }
 
+            return score;
         }
 
     }

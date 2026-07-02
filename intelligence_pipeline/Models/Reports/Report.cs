@@ -16,19 +16,32 @@ namespace IntelligencePipeline.Models.Reports
         public int ReliabilityScore { get; set; }
         public string RejectionReason { get; set; }
 
-        protected Report(int reportId, DataTime timestamp, double latitude, double longitude, string description)
+        protected Report(int reportId, DateTime timestamp,
+            double latitude, double longitude, string description)
         {
+            ReportId = reportId;
+            Timestamp = timestamp;
+            Latitude = latitude;
+            Longitude = longitude;
+            Description = description;
+            Status = ReportStatus.New;
+            // Temparay Values
+            Priority = Priority.Low;
+            Classification = Classification.Restricted;
+            ReliabilityScore = 1;
+            RejectionReason = string.Empty;
 
         }
         public abstract string GetSourceType();
         public abstract int CalculateReliabilityScore();
         public virtual string GetSummary()
         {
-
+            return $"ID: #{ReportId} | Status: {Status} | Latitude: {Latitude} | Longitude: {Longitude}" +
+                $"Timestamp: {Timestamp} | Description{Description}";
         }
         public override string ToString()
         {
-
+            return $"ID: #{ReportId} | Status: {Status} | Timestamp: {Timestamp} | Description{Description}";
         }
     }
 }
