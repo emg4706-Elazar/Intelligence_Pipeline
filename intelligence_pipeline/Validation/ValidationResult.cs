@@ -2,13 +2,10 @@ namespace IntelligencePipeline.Validation
 {
     class ValidationResult
     {
-        private bool _isValid;
-        private string _errorMessage;
-
         public bool IsValid { get; }
         public string ErrorMessage { get; }
 
-        public ValidationResult(bool isValid, string errorMessage)
+        private ValidationResult(bool isValid, string errorMessage)
         {
             IsValid = isValid;
             ErrorMessage = errorMessage;
@@ -19,7 +16,12 @@ namespace IntelligencePipeline.Validation
         }
         public static ValidationResult Failure(string errorMessage)
         {
-            return new ValidationResult(false ,errorMessage);
+            if (string.IsNullOrWhiteSpace(errorMessage))
+            {
+                errorMessage = "Validation failed";
+            }
+
+            return new ValidationResult(false, errorMessage);
         }
     }
 }
