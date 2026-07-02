@@ -4,17 +4,15 @@ namespace IntelligencePipeline.Validation
 {
     class RadarValidator: BaseValidator
     {
-        public RadarValidator(int reportId, DateTime timestamp, double latitude,
-            double longitude, string description,
-            int speed, int direction, int distance)
-            : base(reportId, timestamp, latitude, longitude, description)
-        {
-            Speed = speed;
-
-        }
         protected override ValidationResult ValidateSpecificFields(Report report)
         {
-
+            if (report is RadarReport radar)
+            {
+                if (radar.Speed < 0 || radar.Speed > 2000) { return ValidationResult.Failure("Wrong speed"); }
+                if (radar.Direction < 0 || radar.Direction > 360) { return ValidationResult.Failure("Wrong direction"); }
+                if (radar.Distance < 100 || radar.Distance > 100000) { return ValidationResult.Failure("Wrong distance"); }
+            }
+            return ValidationResult.Success();
         }
     }
 }
