@@ -1,5 +1,5 @@
 using IntelligencePipeline.Models.Enums;
-using System.Data;
+
 
 namespace IntelligencePipeline.Models.Reports
 {
@@ -25,13 +25,29 @@ namespace IntelligencePipeline.Models.Reports
             Longitude = longitude;
             Description = description;
             Status = ReportStatus.New;
-            // Temparay Values
+            // Temporary Values
             Priority = Priority.Low;
             Classification = Classification.Restricted;
             ReliabilityScore = 1;
             RejectionReason = string.Empty;
 
         }
+
+        protected Report(Report other)
+        {
+            ReportId = other.ReportId;
+            Timestamp = other.Timestamp;
+            Latitude = other.Latitude;
+            Longitude = other.Longitude;
+            Description = other.Description;
+            Status = other.Status;
+            Priority = other.Priority;
+            Classification = other.Classification;
+            ReliabilityScore = other.ReliabilityScore;
+            RejectionReason = other.RejectionReason;
+        }
+
+        public abstract Report Clone();
         public abstract string GetSourceType();
         public abstract int CalculateReliabilityScore();
         public virtual string GetSummary()

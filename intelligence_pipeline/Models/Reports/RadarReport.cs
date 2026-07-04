@@ -16,13 +16,24 @@ namespace IntelligencePipeline.Models.Reports
             Distance = distance;
         }
 
+        public RadarReport(RadarReport other)
+            : base(other)
+        {
+            Speed = other.Speed;
+            Direction = other.Direction;
+            Distance = other.Distance;
+        }
 
+        public override Report Clone()
+        {
+            return new RadarReport(this);
+        }
         public override string GetSourceType() => "Radar";
 
         public override int CalculateReliabilityScore()
         {
-            int BASESCORE = 6;
-            int score = BASESCORE;
+            int BaseScore = 6;
+            int score = BaseScore;
             if (Distance >= 500 && Distance <= 30000) { score += 2; }
             if (Speed >= 10 && Speed <= 900) { score += 1; }
             if (Distance > 7000) { score -= 2; }

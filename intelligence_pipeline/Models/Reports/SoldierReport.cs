@@ -18,14 +18,26 @@ namespace IntelligencePipeline.Models.Reports
             ConfidenceLevel = confidenceLevel;
         }
 
+        public SoldierReport(SoldierReport other)
+            : base(other)
+        {
+            SoldierID = other.SoldierID;
+            SoldierName = other.SoldierName;
+            Unit = other.Unit;
+            ConfidenceLevel = other.ConfidenceLevel;
+        }
+
+        public override Report Clone()
+        {
+            return new SoldierReport(this);
+        }
         public override string GetSourceType() => "Soldier";
 
         public override int CalculateReliabilityScore()
         {
-            const int BASESCORE = 4;
-            int score = BASESCORE + ConfidenceLevel;
-            string[] KEYWORDS = { "weapon", "vehicle", "movement", "explosion" };
-            if (IsInDescription(KEYWORDS))
+            const int BaseScore = 4;
+            int score = BaseScore + ConfidenceLevel;
+            if (IsInDescription("weapon", "vehicle", "movement", "explosion"))
                 {
                 score += 1;
                 }
@@ -33,10 +45,10 @@ namespace IntelligencePipeline.Models.Reports
             return score;
         }
 
-        private bool IsInDescription(string[] KEYWORDS)
+        private bool IsInDescription(params string[] Keywords)
         {
             bool found = false;
-            foreach (string word in KEYWORDS)
+            foreach (string word in Keywords)
             {
                 if (Description.Contains(word, StringComparison.OrdinalIgnoreCase))
                 {

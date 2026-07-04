@@ -15,12 +15,23 @@ namespace IntelligencePipeline.Models.Reports
             ImageQuality = imageQuality;
         }
 
+        public DroneReport(DroneReport other)
+            : base(other)
+        {
+            Altitude = other.Altitude;
+            ImageQuality = other.ImageQuality;
+        }
+
+        public override Report Clone()
+        {
+            return new DroneReport(this);
+        }
 
         public override string GetSourceType() => "Drone";
         public override int CalculateReliabilityScore()
         {
-            const int BASESCORE = 5;
-            int score = BASESCORE;
+            const int BaseScore = 5;
+            int score = BaseScore;
             if (ImageQuality >= 80) { score += 3; }
             if (ImageQuality >= 50) { score += 2; }
             if (Altitude >= 500 && Altitude <= 3000) { score += 2; }
