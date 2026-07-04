@@ -32,7 +32,7 @@ namespace IntelligencePipeline.Models.Reports
 
         public override int CalculateReliabilityScore()
         {
-            int BaseScore = 6;
+            const int BaseScore = 6;
             int score = BaseScore;
             if (Distance >= 500 && Distance <= 30000) { score += 2; }
             if (Speed >= 10 && Speed <= 900) { score += 1; }
