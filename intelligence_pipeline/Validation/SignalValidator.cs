@@ -1,4 +1,5 @@
 using IntelligencePipeline.Models.Reports;
+using IntelligencePipeline.Models.Enums;
 
 namespace IntelligencePipeline.Validation
 {
@@ -16,9 +17,19 @@ namespace IntelligencePipeline.Validation
                 return ValidationResult.Failure("Wrong frequency");
             }
 
+            if (string.IsNullOrWhiteSpace(signal.Content))
+            {
+                return ValidationResult.Failure("Content is required");
+            }
+
             if (signal.Content.Length < 5 || signal.Content.Length > 1000)
             {
                 return ValidationResult.Failure("Wrong content");
+            }
+
+            if (!Enum.IsDefined(typeof(Language), signal.Language))
+            {
+                return ValidationResult.Failure("Invalid language.");
             }
 
             if (signal.SignalStrength > 0 || signal.SignalStrength < -120)

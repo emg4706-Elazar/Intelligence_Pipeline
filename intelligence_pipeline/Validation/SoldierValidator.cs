@@ -22,6 +22,11 @@ namespace IntelligencePipeline.Validation
                 return ValidationResult.Failure("Invalid length of ID.");
             }
 
+            if (!ContainsOnlyDigits(soldier.SoldierID))
+            {
+                return ValidationResult.Failure("Soldier ID must contain digits only.");
+            }
+
             if (soldier.Unit.Length < 2 || soldier.Unit.Length > 50)
             {
                 return ValidationResult.Failure("Invalid length of Unit.");
@@ -33,6 +38,23 @@ namespace IntelligencePipeline.Validation
             }
 
             return ValidationResult.Success();
+        }
+        private static bool ContainsOnlyDigits(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return false;
+            }
+
+            foreach(char c in text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

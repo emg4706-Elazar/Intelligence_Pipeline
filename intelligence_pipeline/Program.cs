@@ -2,11 +2,7 @@
 using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Pipeline;
 using IntelligencePipeline.Storage;
-using System.Reflection.Metadata;
-/* Receive the input from user.
- * Call to the match constructor to build a report object.
- * 
- */
+
 
 namespace IntelligencePipeline
 {
@@ -140,8 +136,6 @@ namespace IntelligencePipeline
             {
                 case "1":
                     string[] droneFields = GetInputDrone();
-                    DroneReport newDrone = new DroneReport(pipeline.GetNewId(),
-                        newReport[0], newReport[1], newReport[2], newReport[3], droneFields[0], droneFields[1]);
                     return droneFields;
 
                 case "2":
