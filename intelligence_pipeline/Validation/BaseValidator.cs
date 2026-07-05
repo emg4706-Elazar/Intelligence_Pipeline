@@ -36,6 +36,11 @@ namespace IntelligencePipeline.Validation
                 return ValidationResult.Failure("Wrong longitude"); 
             }
 
+            if (report.Description is null)
+            {
+                return ValidationResult.Failure("Description must be not null.");
+            }
+
             if (report.Description.Length < 10 || report.Description.Length > 500) 
             {
                 return ValidationResult.Failure("Invalid length of 'description'.");

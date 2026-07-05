@@ -34,7 +34,7 @@ namespace IntelligencePipeline.Calculators
                 return Classification.Secret;
             }
             // 3.
-            if (ContainsKeyword(report.Description, "weapon", "broder"))
+            if (ContainsKeyword(report.Description, "weapon", "border"))
             {
                 return Classification.Secret;
             }
@@ -65,7 +65,6 @@ namespace IntelligencePipeline.Calculators
                 {
                     isContain = true;
                     return isContain;
-                    break;
                 }  
             }
             return isContain;

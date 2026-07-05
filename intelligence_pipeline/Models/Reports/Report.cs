@@ -6,10 +6,10 @@ namespace IntelligencePipeline.Models.Reports
     abstract class Report
     {
         public int ReportId { get; }
-        public DateTime Timestamp { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public string Description { get; set; }
+        public DateTime Timestamp { get; protected set; }
+        public double Latitude { get;protected set; }
+        public double Longitude { get;protected set; }
+        public string Description { get;protected set; }
         public ReportStatus Status { get; set; }
         public Priority Priority { get; set; }
         public Classification Classification { get; set; }
@@ -25,7 +25,6 @@ namespace IntelligencePipeline.Models.Reports
             Longitude = longitude;
             Description = description;
             Status = ReportStatus.New;
-            // Temporary Values
             Priority = Priority.Low;
             Classification = Classification.Unclassified;
             ReliabilityScore = 1;
@@ -52,12 +51,13 @@ namespace IntelligencePipeline.Models.Reports
         public abstract int CalculateReliabilityScore();
         public virtual string GetSummary()
         {
-            return $"ID: #{ReportId} | Status: {Status} | Latitude: {Latitude} | Longitude: {Longitude} | " +
-                $"Timestamp: {Timestamp} | Description: {Description}";
+            return $"Id: {ReportId} | Type:  {GetSourceType()} | Status: {Status} | Priority: {Priority}" +
+                $" | Reliability: {ReliabilityScore} | Classification: {Classification}\n";
         }
         public override string ToString()
         {
             return $"ID: #{ReportId} | Status: {Status} | Timestamp: {Timestamp} | Description: {Description}";
         }
+        
     }
 }

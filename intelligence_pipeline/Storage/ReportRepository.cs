@@ -61,7 +61,7 @@ namespace IntelligencePipeline.Storage
             {
                 if (report.Description.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.Add(report);
+                    result.Add(report.Clone());
                 }
             }
 

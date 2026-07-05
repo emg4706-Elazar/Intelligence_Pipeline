@@ -6,17 +6,19 @@ namespace IntelligencePipeline.Validation
     {
         protected override ValidationResult ValidateSpecificFields(Report report)
         {
-            if (report is DroneReport drone)
+            if (report is not DroneReport drone)
             {
-                if (drone.Altitude < 100 || drone.Altitude > 1000)
-                {
-                    return ValidationResult.Failure("Wrong altitude");
-                }
+                return ValidationResult.Failure("Unsupported report type");
+            }
 
-                if (drone.ImageQuality < 1 || drone.ImageQuality > 100) 
-                {
-                    return ValidationResult.Failure("Wrong ImageQuality"); 
-                }
+            if (drone.Altitude < 100 || drone.Altitude > 10000)
+            {
+                return ValidationResult.Failure("Wrong altitude");
+            }
+
+            if (drone.ImageQuality < 1 || drone.ImageQuality > 100)
+            {
+                return ValidationResult.Failure("Wrong ImageQuality");
             }
 
             return ValidationResult.Success();

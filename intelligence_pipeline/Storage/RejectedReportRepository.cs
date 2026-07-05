@@ -10,7 +10,10 @@ namespace IntelligencePipeline.Storage
         {
             _rejectedReports = new List<Report>();
         }
-        public void Add(Report report) { }
+        public void Add(Report report)
+        {
+            _rejectedReports.Add(report);
+        }
         public List<Report> GetAll()
         {
             List<Report> result = new List<Report>();
@@ -34,7 +37,7 @@ namespace IntelligencePipeline.Storage
             {
                 if (report.RejectionReason.Contains(reasonKeyword, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.Add(report);
+                    result.Add(report.Clone());
                 }
             }
 

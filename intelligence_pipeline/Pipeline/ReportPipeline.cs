@@ -1,12 +1,9 @@
-using IntelligencePipeline.Models.Reports;
+using IntelligencePipeline.Calculators;
 using IntelligencePipeline.Models.Enums;
+using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Storage;
 using IntelligencePipeline.Validation;
-using IntelligencePipeline.Calculators;
-/* This class receive only Report object,
- * Execute validation
- * Store in the appropriate repository
- */
+
 
 namespace IntelligencePipeline.Pipeline
 {
@@ -42,7 +39,15 @@ namespace IntelligencePipeline.Pipeline
             return _rejectedReports;
         }
 
-        public void DisplayStatistics() { }
+        public void DisplayStatistics()
+        {
+            Console.WriteLine("\n===== Statistics ====\n");
+            Console.WriteLine($"All Reports: {_validatedReports.GetTotalCount() + _rejectedReports.GetTotalCount()}");
+            Console.WriteLine($"Validated: {_validatedReports.GetTotalCount()}");
+            Console.WriteLine($"Rejected: {_rejectedReports.GetTotalCount()}");
+            Console.WriteLine($"In Progress: {_validatedReports.GetCountByStatus(ReportStatus.InProgress)}");
+            Console.WriteLine($"Completed: {_validatedReports.GetCountByStatus(ReportStatus.Completed)}");
+        }
 
         private IValidator GetValidator(Report report)
         {
@@ -58,10 +63,28 @@ namespace IntelligencePipeline.Pipeline
             {
                 return new SignalValidator();
             }
-            return new SoldierValidator();
+            if (report.GetSourceType() == "Soldier")
+            {
+                return new SoldierValidator();
+            }
+            else
+            {
+                throw new Exception("Unknown report type");
+            }
         }
 
         private void ValidateReport(Report report)
+        /* 
+         * Receive appropriate validator through GetValidator().
+         * Calls Validate() on the selected IValidator.
+         * Receive response from Validate() of ValidationResult whether it failed or success.
+         * If fails:
+              Set Status = Rejected
+              Set RejectionReason
+         * If validation succeeds:
+              Set Status = Validated
+        */
+
         {
             report.Status = ReportStatus.Validating;
             IValidator validator = GetValidator(report);
@@ -77,13 +100,16 @@ namespace IntelligencePipeline.Pipeline
             }
         }
         private void CalculateMetrics(Report report)
+        /*  Calculate ReliabilityScore through ReliabilityCalculator().
+         *  Calculate Priority through PriorityCalculator().
+         *  Calculat Classification through ClasificationCalculator().
+         */
         {
+            ReliabilityCalculator reliabilityCalculator = new ReliabilityCalculator();
+            report.ReliabilityScore = reliabilityCalculator.Calculate(report);
 
             PriorityCalculator priorityCalculator = new PriorityCalculator();
             report.Priority = priorityCalculator.Calculate(report);
-
-            ReliabilityCalculator reliabilityCalculator = new ReliabilityCalculator();
-            report.ReliabilityScore = reliabilityCalculator.Calculate(report);
 
             ClassificationCalculator classificationCalculator = new ClassificationCalculator();
             report.Classification = classificationCalculator.Calculate(report);
@@ -108,20 +134,5 @@ namespace IntelligencePipeline.Pipeline
             return currentId;
         }
     }
+    
 }
-
-/* Change 'Status' from NEW to Validating.
-             * Receive appropriate validator through GetValidator().
-             * Calls Validate() on the selected IValidator.
-             * Receive response from Validate() of ValidationResult whether it failed or success.
-             * If fails:
-             *      Set Status = Rejected
-             *      Set RejectionReason
-             *      Store in RejectedReportRepository through StoreReport().
-             * If validation succeeds:
-             *      Set Status = Validated
-             *      Calculate ReliabilityScore through ReliabilityCalculator().
-             *      Calculate Priority through PriorityCalculator().
-             *      Calculat Classification through ClasificationCalculator().
-             *      Store in ReportRepository through StoreReport().
-             */
