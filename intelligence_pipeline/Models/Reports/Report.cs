@@ -27,7 +27,7 @@ namespace IntelligencePipeline.Models.Reports
             Status = ReportStatus.New;
             // Temporary Values
             Priority = Priority.Low;
-            Classification = Classification.Restricted;
+            Classification = Classification.Unclassified;
             ReliabilityScore = 1;
             RejectionReason = string.Empty;
 
